@@ -35,4 +35,4 @@ yarn-error.*
 *.tsbuildinfo
 
 #program files
-%ProgramData%
+%ProgramData%/Microsoft/Windows/UUS/State/_active.uusver
