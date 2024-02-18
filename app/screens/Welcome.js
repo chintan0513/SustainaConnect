@@ -38,7 +38,7 @@ import {
               ]}>
               SUSTAINACONNECT
             </Text>
-            <Text style={styles.title}>A community based food events app</Text>
+            <Text style={styles.title}>A Social food events app</Text>
           </View>
           
           <View style={styles.buttonContainer}>
