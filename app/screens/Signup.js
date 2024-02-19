@@ -1,17 +1,27 @@
-import { View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, Pressable, Platform } from 'react-native'
-import { StatusBar } from 'expo-status-bar'
-import { useNavigation } from '@react-navigation/native'
+import React, { useState } from 'react';
+import { View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, Platform, Alert } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { useNavigation } from '@react-navigation/native';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
 
-
-export default function SignupScreen() {
-
+export default function Signup() {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const navigation = useNavigation();
-    
+
+    const handleSignup = () => {
+        if (!username || !email || !password) {
+            Alert.alert('Error', 'Please fill in all fields');
+            return;
+        }
+        // Proceed with signup logic here
+    };
+
     return (
         <View className="bg-white h-full w-full">
             <StatusBar style="light" />
-            <Image className="h-full w-full absolute" source={require('../assets/background.png')} />
+            <Image className="h-80 w-full absolute" source={require('../assets/background.png')} />
 
             {/* lights */}
             <View className="flex-row justify-around w-full absolute">
@@ -43,7 +53,7 @@ export default function SignupScreen() {
                                 letterSpacing: 2
                             }
                         ]}>
-                        Sign Up
+                        SignUp
                     </Animated.Text>
                 </View>
 
@@ -63,6 +73,8 @@ export default function SignupScreen() {
                         <TextInput
                             placeholder="Username"
                             placeholderTextColor={'gray'}
+                            value={username}
+                            onChangeText={setUsername}
                         />
                     </Animated.View>
                     <Animated.View 
@@ -78,6 +90,8 @@ export default function SignupScreen() {
                         <TextInput
                             placeholder="Email"
                             placeholderTextColor={'gray'}
+                            value={email}
+                            onChangeText={setEmail}
                         />
                     </Animated.View>
                     <Animated.View 
@@ -95,11 +109,13 @@ export default function SignupScreen() {
                             placeholder="Password"
                             placeholderTextColor={'gray'}
                             secureTextEntry
+                            value={password}
+                            onChangeText={setPassword}
                         />
                     </Animated.View>
 
                     <Animated.View style={{ width: '100%' }} entering={FadeInDown.delay(600).duration(1000).springify()}>
-                        <TouchableOpacity className="w-full bg-sky-400 p-1 rounded-2xl mb-0">
+                        <TouchableOpacity className="w-full bg-sky-400 p-1 rounded-2xl mb-0" onPress={handleSignup}>
                             <Text className="text-xl font-bold text-white text-center">SignUp</Text>
                         </TouchableOpacity>
                     </Animated.View>

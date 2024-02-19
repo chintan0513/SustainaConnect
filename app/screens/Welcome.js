@@ -25,32 +25,22 @@ import {
         <StatusBar translucent backgroundColor="transparent" />
   
         <View style={styles.WelcomeView}>
-        <BlurView intensity={50} tint="light" style={styles.bgdecoration}
-      />
+        <Image source={require('../assets/background.png')} style={styles.bgdecoration}  />
           <View />
           <View>
-            <Text
-              style={[
-                styles.title,
-                {
-                  fontSize: 34,
-                },
-              ]}>
-              SUSTAINACONNECT
-            </Text>
-            <Text style={styles.title}>A Social food events app</Text>
+            <Image source={require('../assets/logo.png')} style={styles.ImageWelcome} />
           </View>
           
           <View style={styles.buttonContainer}>
             <Pressable
               style={styles.Button}
               onPress={() => navigation.navigate('Login')}>
-              <Text style={{color: "#fff", fontWeight: "700"}}> Login </Text>
+              <Text className="text-lg" style={{color: "#fff", fontWeight: "700"}}> Login </Text>
             </Pressable>
             <Pressable
               style={styles.Button}
               onPress={() => navigation.navigate('Signup')}>
-              <Text style={{color: "#fff", fontWeight: "700"}}>Sign Up </Text>
+              <Text className="text-lg" style={{color: "#fff", fontWeight: "700"}}>Sign Up </Text>
             </Pressable>
           </View>
         </View>
@@ -73,28 +63,27 @@ import {
       alignSelf: 'center',
     },
     ImageWelcome: {
-      height: 250,
-      width: 250,
+      height: 300,
+      padding: 50,
+      width: 400,
     },
     bgdecoration: {
-      height: '90%',
       width: '200%',
-      backgroundColor: '#749',
       position: 'absolute',
-      top: '-8%',
-      left: '-60%',
+      top: '-28%',
+      left: '-40%',
       borderRadius: 999,
     },
     buttonContainer: {
       display: 'flex',
       flexDirection: 'row',
-      width: '70%',
+      width: '90%',
       justifyContent: 'space-around',
     },
     Button: {
       backgroundColor: 'rgb(56 189 248)',
       paddingHorizontal: 20,
-      paddingVertical: 12,
+      paddingVertical: 15,
       borderRadius: 10,
     }
   });
