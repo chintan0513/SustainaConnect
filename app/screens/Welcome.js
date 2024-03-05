@@ -35,7 +35,7 @@ import {
             <Pressable
               style={styles.Button}
               onPress={() => navigation.navigate('Login')}>
-              <Text className="text-lg" style={{color: "#fff", fontWeight: "700"}}> Login </Text>
+              <Text className="text-lg" style={{color: "#fff", fontWeight: "700"}}>Login </Text>
             </Pressable>
             <Pressable
               style={styles.Button}
