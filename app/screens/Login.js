@@ -3,19 +3,42 @@ import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert } fro
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
+import {firebase} from '../../config';
 
-export default function LoginScreen() {
+ const Login = () => {
+    const navigation = useNavigation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigation = useNavigation();
+   
 
-    const handleLogin = () => {
-        if (!email || !password) {
-            Alert.alert('Error', 'Please fill in all fields');
-            return;
+    const handleLogin = async (email, password) => {
+    console.log("Logging in with:", email, password); // Check if function is being called
+    try {
+        // Temporarily replace Firebase login with a console log
+        console.log("Simulating login with Firebase...");
+        navigation.navigate('Welcome'); // Verify if navigation is working
+    } catch (error) {
+        Alert.alert('Error', error.message);
+    }
+}
+
+
+    /*const handleLogin = async(email, password) => {
+        try {
+            await firebase.auth().signInWithEmailAndPassword(email, password);
+            navigation.navigate('Welcome');
+        } catch (error) {
+            Alert.alert('Error', error.message);
         }
-        // Implement login logic here
-    };
+    }*/
+
+    // const handleLogin = () => {
+    //     if (!email || !password) {
+    //         Alert.alert('Error', 'Please fill in all fields');
+    //         return;
+    //     }
+    //     // Implement login logic here
+    // };
 
     return (
         <View className="bg-white h-full w-full">
@@ -50,8 +73,9 @@ export default function LoginScreen() {
 
                         <TextInput 
                             required 
-                            onChangeText={setEmail}
+                            onChangeText={(email) => setEmail(email)}
                             value={email}
+                            autoCorrect={false}
                             autoCapitalize="none"
                             keyboardType="email-address"
                             autoCompleteType="email"
@@ -67,8 +91,10 @@ export default function LoginScreen() {
                         <TextInput 
                             required
                             placeholder="Password" 
-                            onChangeText={setPassword}
+                            onChangeText={(password) => setPassword(password)}
                             value={password}
+                            autoCapitalize='none'
+                            autoCorrect={false}
                             placeholderTextColor={'gray'}
                             secureTextEntry
                         />
@@ -99,3 +125,5 @@ export default function LoginScreen() {
         </View>
     );
 }
+
+export default Login;

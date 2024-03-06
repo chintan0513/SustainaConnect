@@ -31,7 +31,7 @@ const App = () => {
     return (
       <NavigationContainer>
               <Stack.Navigator initialRouteName='Welcome' screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Welcome" component={Welcome} options={{ headerTitle: () => <Header />,
+                <Stack.Screen name="Welcome" component={Welcome} options={{ headerTitle: () => <Welcome />,
                  headerStyle: {
                   height: 150, 
                   borderBottomLeftRadius: 50,
@@ -69,17 +69,23 @@ const App = () => {
   }
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Landing" component={Landing} options={{ headerTitle: () => <Landing />,
-           headerStyle: {
-            height: 150, 
-            borderBottomLeftRadius: 50,
-            borderBottomRightRadius: 50,
-            backgroundColor: '#00e4d0',
-            shadowColor: '#000',
-            elevation: 25
-          }
-          }} />
-    </Stack.Navigator>
+  <Stack.Screen
+    name="Landing"
+    component={Landing}
+    options={{
+      headerTitle: () => <Landing />,
+      headerStyle: {
+        height: 150,
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 50,
+        backgroundColor: '#00e4d0',
+        shadowColor: '#000',
+        elevation: 25,
+      },
+    }}
+  />
+</Stack.Navigator>
+
   )
 }
 
