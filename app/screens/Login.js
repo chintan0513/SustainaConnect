@@ -1,51 +1,48 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
-import {firebase} from '../../config';
+import { firebase } from '../../config';
 
- const Login = () => {
-    const navigation = useNavigation();
+ const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-   
 
-    const handleLogin = async (email, password) => {
-    console.log("Logging in with:", email, password); // Check if function is being called
-    try {
-        // Temporarily replace Firebase login with a console log
-        console.log("Simulating login with Firebase...");
-        navigation.navigate('Welcome'); // Verify if navigation is working
-    } catch (error) {
-        Alert.alert('Error', error.message);
+    const onFooterLinkPress = () => {
+        navigation.navigate('Signup')
     }
-}
 
+    const handleLogin = async () => {
+        firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(async (response) => {
+                const uid = response.user.uid;
+                const usersRef = firebase.firestore().collection('users');
+                const userDoc = await usersRef.doc(uid).get();
 
-    /*const handleLogin = async(email, password) => {
-        try {
-            await firebase.auth().signInWithEmailAndPassword(email, password);
-            navigation.navigate('Welcome');
-        } catch (error) {
-            Alert.alert('Error', error.message);
-        }
-    }*/
+                if (!userDoc.exists) {
+                    Alert.alert("User does not exist anymore.");
+                    return;
+                }
 
-    // const handleLogin = () => {
-    //     if (!email || !password) {
-    //         Alert.alert('Error', 'Please fill in all fields');
-    //         return;
-    //     }
-    //     // Implement login logic here
-    // };
+                const userData = userDoc.data();
+                navigation.navigate('Landing', { user: userData }); // Pass userData instead of user
+            })
+            .catch(error => {
+                Alert.alert("Error", error.message);
+            });
+    }
 
     return (
         <View className="bg-white h-full w-full">
             <StatusBar style="light" />
+            <KeyboardAwareScrollView
+                style={{ flex: 1, width: '100%' }}
+                keyboardShouldPersistTaps="always">
             <Image className="h-80 w-auto absolute" source={require('../assets/background.png')} />
-
-            {/* lights */}
             <View className="flex-row justify-around w-full absolute ">
                 <Animated.Image 
                     entering={FadeInUp.delay(200).duration(1000).springify()} 
@@ -58,7 +55,7 @@ import {firebase} from '../../config';
                     className="h-[160] w-[65] " 
                 />
             </View>
-            <View className="h-full w-full flex justify-evenly pt-40">
+            <View className="h-full w-full flex justify-evenly pt-48 mb-72">
                 <View className="flex items-center">
                     <Animated.Text 
                         entering={FadeInUp.duration(1000).springify()} 
@@ -91,7 +88,7 @@ import {firebase} from '../../config';
                         <TextInput 
                             required
                             placeholder="Password" 
-                            onChangeText={(password) => setPassword(password)}
+                            onChangeText={(text) => setPassword(text)}
                             value={password}
                             autoCapitalize='none'
                             autoCorrect={false}
@@ -103,10 +100,9 @@ import {firebase} from '../../config';
                     <Animated.View 
                         className="w-full" 
                         entering={FadeInDown.delay(400).duration(1000).springify()}>
-
                         <TouchableOpacity 
                             className="w-full bg-sky-400 p-3 rounded-2xl mb-3"
-                            onPress={handleLogin}>
+                            onPress={() => handleLogin()}>
                             <Text className="text-xl font-bold text-white text-center">Login</Text>
                         </TouchableOpacity>
                     </Animated.View>
@@ -116,12 +112,13 @@ import {firebase} from '../../config';
                         className="flex-row justify-center">
 
                         <Text>Don't have an account? </Text>
-                        <TouchableOpacity onPress={() => navigation.push('Signup')}>
+                        <TouchableOpacity onPress={onFooterLinkPress}>
                             <Text className="text-sky-600 font-bold">Signup</Text>
                         </TouchableOpacity>
                     </Animated.View>
                 </View>
-            </View>
+            </View> 
+            </KeyboardAwareScrollView>
         </View>
     );
 }

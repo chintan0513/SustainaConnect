@@ -3,24 +3,65 @@ import { View, Text, Image, SafeAreaView, TextInput, TouchableOpacity, Platform,
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { FadeIn, FadeInDown, FadeInUp } from 'react-native-reanimated';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { firebase } from '../../config';
 
-export default function Signup() {
+export default function Signup({navigation}) {
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigation = useNavigation();
+    const [confirmPassword, setConfirmPassword] = useState('')
+    
+    const onFooterLinkPress = () => {
+        navigation.navigate('Login')
+    }
 
     const handleSignup = () => {
-        if (!username || !email || !password) {
+        if (!username || !email || !password || !confirmPassword) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
-        // Proceed with signup logic here
-    };
+
+        if (password !== confirmPassword) {
+            alert("Passwords don't match.")
+            return
+        }
+        firebase
+        firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password)
+    
+            .then((response) => {
+                const uid = response.user.uid
+                const data = {
+                    id: uid,
+                    email,
+                    username,
+                };
+                const usersRef = firebase.firestore().collection('users')
+                usersRef
+                    .doc(uid)
+                    .set(data)
+                    .then(() => {
+                        navigation.navigate('Login', {user: data})
+                    })
+                    .catch((error) => {
+                        alert(error)
+                    });
+            })
+            .catch((error) => {
+                alert(error)
+        });
+    }
 
     return (
         <View className="bg-white h-full w-full">
             <StatusBar style="light" />
+            <KeyboardAwareScrollView
+                style={{ flex: 1, width: '100%' }}
+                keyboardShouldPersistTaps="always">
+            
             <Image className="h-80 w-full absolute" source={require('../assets/background.png')} />
 
             {/* lights */}
@@ -38,34 +79,27 @@ export default function Signup() {
             </View>
 
             {/* title and form */}
-            <View className="h-full w-full flex justify-around pt-48">
+            <View className="h-full w-full flex justify-around pt-48 mb-72">
                 
                 {/* title */}
                 <View className="flex items-center">
                     <Animated.Text 
                         entering={FadeInUp.duration(1000).springify()} 
-                        style={[
-                            { 
-                                padding: Platform.OS === 'ios' ? 0 : 40,
-                                color: Platform.OS === 'ios' ? 'white' : 'white', // Conditionally set text color based on platform
-                                fontSize: Platform.OS === 'ios' ? 36 : 28, // Conditionally set font size based on platform
-                                fontWeight: 'bold',
-                                letterSpacing: 2
-                            }
-                        ]}>
+                        className="text-sky-500 font-bold tracking-wider text-4xl">
                         SignUp
                     </Animated.Text>
+                    
                 </View>
 
                 {/* form */}
-                <View className="flex items-center mx-5 space-y-3">
+                <View className="flex items-center mx-5 space-y-4">
                     <Animated.View 
                         entering={FadeInDown.duration(1000).springify()} 
+                        className="bg-black/5 p-4 rounded-2xl w-full"
                         style={[
                             { 
-                                backgroundColor: 'rgba(0, 0, 0, 0.1)', // Default background color
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)', // 
                                 padding: Platform.OS === 'ios' ? 20 : 10,
-                                 // Conditionally set padding based on platform
                                 borderRadius: 10,
                                 width: '100%'
                             }
@@ -78,6 +112,7 @@ export default function Signup() {
                         />
                     </Animated.View>
                     <Animated.View 
+                        className="bg-black/5 p-4 rounded-2xl w-full mb-0"
                         entering={FadeInDown.delay(200).duration(1000).springify()} 
                         style={[
                             { 
@@ -95,6 +130,7 @@ export default function Signup() {
                         />
                     </Animated.View>
                     <Animated.View 
+                        className="bg-black/5 p-4 rounded-2xl w-full mb-3"
                         entering={FadeInDown.delay(400).duration(1000).springify()} 
                         style={[
                             { 
@@ -113,9 +149,29 @@ export default function Signup() {
                             onChangeText={setPassword}
                         />
                     </Animated.View>
+                    <Animated.View 
+                        className="bg-black/5 p-4 rounded-2xl w-full mb-3"
+                        entering={FadeInDown.delay(400).duration(1000).springify()} 
+                        style={[
+                            { 
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)', // Default background color
+                                padding: Platform.OS === 'ios' ? 20 : 10, // Conditionally set padding based on platform
+                                borderRadius: 10,
+                                width: '100%',
+                                marginBottom: 0 // Adjust margin bottom for Android
+                            }
+                        ]}>
+                        <TextInput
+                            placeholder="Confirm Password"
+                            placeholderTextColor={'gray'}
+                            secureTextEntry
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                        />
+                    </Animated.View>
 
                     <Animated.View style={{ width: '100%' }} entering={FadeInDown.delay(600).duration(1000).springify()}>
-                        <TouchableOpacity className="w-full bg-sky-400 p-1 rounded-2xl mb-0" onPress={handleSignup}>
+                        <TouchableOpacity className="w-full bg-sky-400 p-3 rounded-2xl mb-0" onPress={handleSignup}>
                             <Text className="text-xl font-bold text-white text-center">SignUp</Text>
                         </TouchableOpacity>
                     </Animated.View>
@@ -125,13 +181,14 @@ export default function Signup() {
                         style={{ flexDirection: 'row', justifyContent: 'center' }}>
 
                         <Text>Already have an account? </Text>
-                        <TouchableOpacity onPress={()=> navigation.push('Login')}>
+                        <TouchableOpacity onPress={onFooterLinkPress}>
                             <Text className="text-sky-600 font-bold">Login</Text>
                         </TouchableOpacity>
 
                     </Animated.View>
                 </View>
             </View>
+            </KeyboardAwareScrollView>
         </View>
     )
 }
