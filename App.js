@@ -6,9 +6,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './app/screens/Login';
 import Signup from './app/screens/Signup';
 import Welcome from './app/screens/Welcome';
-import Landing from './app/screens/Landing';
+import Questions from './app/screens/Questions';
 import { firebase } from './config';
 import {decode, encode} from 'base-64'
+import Landing from './app/screens/Landing';
+
 if (!global.btoa) {  global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 
@@ -54,13 +56,15 @@ const App = () => {
           <Stack.Screen name="Welcome" component={Welcome} />
           <Stack.Screen name="Signup" component={Signup} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Questions" component={Questions} />
           <Stack.Screen name="Landing" component={Landing} />
         </Stack.Navigator>
       </NavigationContainer>
     )
   }
-
+else {
   return (
+    <NavigationContainer>
     <Stack.Navigator>
       <Stack.Screen name="Landing" screenOptions={{ headerShown: false }} initialRouteName="Landing"
         component={Landing}
@@ -79,7 +83,10 @@ const App = () => {
       />
     </Stack.Navigator>
 
+    </NavigationContainer>
+
   )
+  }
 }
 
 export default App;

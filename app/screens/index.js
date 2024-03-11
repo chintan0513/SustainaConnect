@@ -1,8 +1,8 @@
 import Login from './Login';
 import Signup from './Signup';
 import Welcome from './Welcome';
-import Landing from './Landing';
-import Questions from './Questions';
+import Questions from './Questions'
+import Landing from './Landing'
 
-export {Login, Signup, Welcome, Landing, Questions}
+export {Login, Signup, Welcome, Questions, Landing}
 

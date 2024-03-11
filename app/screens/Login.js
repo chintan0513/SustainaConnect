@@ -29,7 +29,7 @@ import { firebase } from '../../config';
                 }
 
                 const userData = userDoc.data();
-                navigation.navigate('Landing', { user: userData }); // Pass userData instead of user
+                navigation.navigate('Questions', { user: userData }); // Pass userData instead of user
             })
             .catch(error => {
                 Alert.alert("Error", error.message);
