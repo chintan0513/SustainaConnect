@@ -9,26 +9,24 @@ const Landing = ({ route }) => {
 
     // Function to handle logout
     const handleLogout = async () => {
-
-       
-        try {
-            await firebase.auth().signOut(); 
-            console.log('User signed out!');
-            navigation.navigate('Welcome'); 
-        } catch (error) {
-            console.error('Error logging out:', error);
-        }
+      try {
+        await firebase.auth().signOut(); 
+        console.log('User signed out!');
+        navigation.navigate('Welcome'); 
+      } catch (error) {
+        console.error('Error logging out:', error);
+      }
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Welcome {user.displayName || user.email}</Text>
-            <TouchableOpacity onPress={handleLogout}>
-                <Text>Logout</Text>
-            </TouchableOpacity>
-        </View>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Welcome {user.username || user.email}</Text>
+        <TouchableOpacity onPress={handleLogout}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
+      </View>
     );
-}
+  }
+
 
 export default Landing;
-
