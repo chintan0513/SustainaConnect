@@ -151,8 +151,8 @@ const Questions = ({ navigation }) => {
               />
             </Animated.View>
 
-            <TouchableOpacity style={styles.selectButton} onPress={pickImage}>
-              <Text style={styles.btnText}>Pick an Image</Text>
+            <TouchableOpacity className="w-full bg-sky-400 p-3 rounded-2xl mb-3" style={styles.selectButton} onPress={pickImage}>
+              <Text className="text-xl font-bold text-white text-center" style={styles.btnText}>Pick an Image</Text>
             </TouchableOpacity>
             <View style={styles.imageContainer}>
               {image && <Image source={{ uri: image.uri }} style={{ width: 50, height: 50 }} />}
@@ -161,7 +161,7 @@ const Questions = ({ navigation }) => {
             <TouchableOpacity
               style={[styles.submitButton, !isImageSelected && { backgroundColor: '#ccc' }]}
               onPress={handleSubmit}>
-              <Text style={[styles.submitText]}  disabled={!isImageSelected}>Submit</Text>
+              <Text style={[styles.submitText]} disabled={!isImageSelected}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -177,8 +177,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: 'absolute',
-    height: '100%',
-    width: '100%',
+    height: '50%',
   },
   logoContainer: {
     flexDirection: 'row',
