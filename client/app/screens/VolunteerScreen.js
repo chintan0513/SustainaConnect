@@ -8,24 +8,37 @@ import {
   ImageBackground,
 } from "react-native";
 import React, { useState } from "react";
+import axios from "axios";
 
 const VolunteerScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phone, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState("false");
   const [city, setCity] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       setLoading(true);
-      if (!name || !email || !phoneNumber || !city) {
+      if (!name || !email || !phone || !city) {
         Alert.alert("Please fill all fields");
         setLoading(false);
       }
-      console.log("Register Data==> ", { email, name, phoneNumber, city });
       setLoading(false);
-    } catch {
+      const { data } = await axios.post(
+        "http://192.168.2.115:8080/api/v1/auth/register",
+        {
+          name,
+          email,
+          phone,
+          city,
+        }
+      );
+      alert(data && data.message);
+      console.log("Register Data==> ", { name, email, phone, city });
+    } catch (error) {
+      alert(error.response.data.message);
+      setLoading(false);
       console.log("Error");
     }
   };
@@ -68,7 +81,7 @@ const VolunteerScreen = () => {
             autoCorrect={false}
             keyboardType="phone-pad"
             autoCompleteType="tel"
-            value={phoneNumber}
+            value={phone}
             onChangeText={setPhoneNumber}
           />
           <Text style={styles.label}>City</Text>
