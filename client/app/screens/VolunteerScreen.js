@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const VolunteerScreen = () => {
   const [name, setName] = useState("");
@@ -55,6 +56,9 @@ const VolunteerScreen = () => {
         phone,
         time: new Date().toLocaleString(),
       };
+
+      await AsyncStorage.setItem("@auth", JSON.stringify(data));
+
       setRegistrations([...registrations, registrationData]);
       setLoading(false);
       setShowForm(false);
@@ -81,6 +85,12 @@ const VolunteerScreen = () => {
     setPhoneNumber("");
     setCity("");
   };
+
+  const getLocalStorageData = async () => {
+    let data = await AsyncStorage.getItem("@auth");
+    // console.log("Data==> ", data);
+  };
+  getLocalStorageData();
 
   return (
     <ImageBackground
@@ -213,6 +223,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
+    alignItems: "center",
   },
   textBtn: {
     color: "#fff",
@@ -241,5 +252,7 @@ const styles = StyleSheet.create({
   toggleText: {
     color: "#fff",
     fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 16,
   },
 });
