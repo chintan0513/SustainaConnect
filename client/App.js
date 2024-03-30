@@ -12,6 +12,7 @@ import { decode, encode } from "base-64";
 import Landing from "./app/screens/Landing";
 import VolunteerScreen from "./app/screens/VolunteerScreen";
 import { AuthProvider } from "./context/authContext";
+import Post from "./app/screens/Post";
 
 if (!global.btoa) {
   global.btoa = encode;
@@ -91,6 +92,7 @@ const App = () => {
           <AuthProvider>
             <Stack.Screen name="volunteer" component={VolunteerScreen} />
           </AuthProvider>
+          <Stack.Screen name="post" component={Post} />
         </Stack.Navigator>
       </NavigationContainer>
     );
