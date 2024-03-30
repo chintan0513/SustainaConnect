@@ -21,7 +21,7 @@ export default function Landing({ navigation, route }) {
         tabBarIcon: ({ focused, color }) => {
           let iconName;
           if (route.name === "Landing") {
-            iconName = focused ? "home" : "home";
+            iconName = focused ? "home-outline" : "home-outline";
           } else if (route.name === "Volunteer") {
             iconName = focused ? "megaphone-outline" : "megaphone-outline";
           } else if (route.name === "Map") {
@@ -40,7 +40,6 @@ export default function Landing({ navigation, route }) {
       // tabBarOptions={{
       //   activeTintColor: 'cyan',
       //   inactiveTintColor: 'gray',
-
       // }}
     >
       <Tab.Screen style={styles.icons} name="Landing" component={HomeScreen} />
@@ -63,6 +62,5 @@ const styles = StyleSheet.create({
   },
   icons: {
     color: "black",
-    backgroundColor: "black",
   },
 });

@@ -92,7 +92,7 @@ const App = () => {
           <AuthProvider>
             <Stack.Screen name="volunteer" component={VolunteerScreen} />
           </AuthProvider>
-          <Stack.Screen name="post" component={Post} />
+          {/* <Stack.Screen name="post" component={Post} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     );

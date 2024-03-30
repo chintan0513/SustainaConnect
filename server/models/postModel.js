@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema(
     //   required: [true, "Please add an image"],
     // },
     // postedBy: {
-    //   type: mongoose.Schema.Types.ObjectId,
+    //   type: mongoose.Schema.ObjectId,
     //   ref: "user",
     //   required: true,
     // },
