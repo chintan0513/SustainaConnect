@@ -14,8 +14,8 @@ const Post = ({ navigation }) => {
   const [post, setPosts] = useState([]);
 
   const [title, setTitle] = useState("");
-  const [description, setDecription] = useState("");
-  const [location, setCity] = useState("");
+  const [description, setDescription] = useState("");
+  const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
 
   //handle form data post DATA
@@ -44,12 +44,14 @@ const Post = ({ navigation }) => {
           location,
         }
       );
-      setLoading(false);
       setPosts([...post, data?.post]);
-      alert(data?.message);
+      setLoading(false);
+      alert(data.message);
       navigation.navigate("Landing");
     } catch (error) {
-      alert(error.response.data.message || error.message);
+      alert(
+        error.response.data.message || error.message || "An error occurred"
+      );
       setLoading(false);
       console.log(error);
     }
@@ -73,7 +75,7 @@ const Post = ({ navigation }) => {
             multiline={true}
             numberOfLines={6}
             value={description}
-            onChangeText={(text) => setDecription(text)}
+            onChangeText={(text) => setDescription(text)}
           />
           <TextInput
             style={styles.inputBox}
@@ -82,7 +84,7 @@ const Post = ({ navigation }) => {
             multiline={false}
             numberOfLines={1}
             value={location}
-            onChangeText={(text) => setCity(text)}
+            onChangeText={(text) => setLocation(text)}
           />
         </View>
         <View style={{ alignItems: "center" }}>
