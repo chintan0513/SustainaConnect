@@ -9,10 +9,13 @@ import {
 } from "react-native";
 import axios from "axios";
 import PostCard from "./PostCard"; // Import the PostCard component
+import EditModal from "./EditModal";
 
 const HomeScreen = () => {
   const [posts, setPosts] = useState([]);
   const [refreshing, setRefreshing] = useState(false); // Add state for refreshing
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   const fetchPosts = async () => {
     try {
@@ -29,6 +32,11 @@ const HomeScreen = () => {
     fetchPosts();
   }, []);
 
+  const openEditModal = (post) => {
+    setSelectedPost(post);
+    setModalVisible(true);
+  };
+
   const handleRefresh = async () => {
     setRefreshing(true);
     await fetchPosts();
@@ -44,9 +52,16 @@ const HomeScreen = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item._id}
-        renderItem={({ item }) => <PostCard post={item} />}
+        renderItem={({ item }) => (
+          <PostCard post={item} openEditModal={openEditModal} />
+        )}
         refreshing={refreshing}
         onRefresh={handleRefresh}
+      />
+      <EditModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        post={selectedPost}
       />
     </View>
   );

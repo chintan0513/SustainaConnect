@@ -75,7 +75,6 @@ const App = () => {
           <Stack.Screen
             name="Landing"
             screenOptions={{ headerShown: false }}
-            // initialRouteName="Landing"
             component={Landing}
             options={{
               headerTitle: () => <Landing />,
