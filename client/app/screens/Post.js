@@ -16,6 +16,7 @@ const Post = ({ navigation }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
+  const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
 
   //handle form data post DATA
@@ -36,12 +37,19 @@ const Post = ({ navigation }) => {
         alert("Please add post city");
       }
 
+      if (!date) {
+        alert("Please add post date");
+        setLoading(false);
+        return;
+      }
+
       const { data } = await axios.post(
         "http://192.168.2.115:8080/api/v1/post/create-post",
         {
           title,
           description,
           location,
+          date,
         }
       );
       setPosts([...post, data?.post]);
@@ -86,6 +94,15 @@ const Post = ({ navigation }) => {
             value={location}
             onChangeText={(text) => setLocation(text)}
           />
+          <TextInput
+            style={styles.inputBox}
+            placeholder="add post date (YYYY-MM-DD)"
+            placeholderTextColor={"gray"}
+            multiline={false}
+            numberOfLines={1}
+            value={date}
+            onChangeText={(text) => setDate(text)}
+          />
         </View>
         <View style={{ alignItems: "center" }}>
           <TouchableOpacity style={styles.postBtn} onPress={handlePost}>
@@ -102,8 +119,7 @@ const Post = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
-    marginTop: 40,
+    marginTop: 100,
   },
   heading: {
     fontSize: 25,

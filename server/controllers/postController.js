@@ -2,12 +2,12 @@ const postModel = require("../models/postModel");
 
 const createPostController = async (req, res) => {
   try {
-    const { title, description, location } = req.body;
+    const { title, description, location, date } = req.body;
 
-    if (!title || !description || !location) {
+    if (!title || !description || !location || !date) {
       return res.status(400).send({
         success: false,
-        message: "Please provide title and description",
+        message: "Please provide title, description and location and date.",
       });
     }
 
@@ -15,6 +15,7 @@ const createPostController = async (req, res) => {
       title,
       description,
       location,
+      date,
       // image,
       // postedBy: req.auth._id,
     });

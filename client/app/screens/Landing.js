@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-
 import { Ionicons } from "@expo/vector-icons";
 import MapScreen from "./MapScreen";
 import VolunteerScreen from "./VolunteerScreen";

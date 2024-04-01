@@ -18,14 +18,13 @@ const postSchema = new mongoose.Schema(
       required: [true, "Please add a location"],
     },
     // image: {
-    //   type: string,
+    //   type: String,
     //   required: [true, "Please add an image"],
     // },
-    // postedBy: {
-    //   type: mongoose.Schema.ObjectId,
-    //   ref: "user",
-    //   required: true,
-    // },
+    date: {
+      type: Date,
+      required: [true, "Please add a date for the event"],
+    },
   },
   {
     timestamps: true,
