@@ -1,31 +1,61 @@
 const postModel = require("../models/postModel");
+const multer = require("multer");
+
+// Multer configuration
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const createPostController = async (req, res) => {
   try {
-    const { title, description, location, date } = req.body;
+    // Multer middleware to handle file upload
+    upload.single("image")(req, res, async function (err) {
+      if (err instanceof multer.MulterError) {
+        // A Multer error occurred when uploading
+        return res.status(400).send({
+          success: false,
+          message: "Error uploading image.",
+          error: err.message,
+        });
+      } else if (err) {
+        // An unknown error occurred when uploading
+        return res.status(500).send({
+          success: false,
+          message: "Unknown error uploading image.",
+          error: err.message,
+        });
+      }
 
-    if (!title || !description || !location || !date) {
-      return res.status(400).send({
-        success: false,
-        message: "Please provide title, description and location and date.",
+      // Extracting data from the request body
+      const { title, description, location, date } = req.body;
+
+      // Checking if all required fields are present
+      if (!title || !description || !location || !date || !req.file) {
+        return res.status(400).send({
+          success: false,
+          message:
+            "Please provide title, description, location, date, and image.",
+        });
+      }
+
+      // Creating a new post with the extracted data
+      const post = await postModel.create({
+        title,
+        description,
+        location,
+        date,
+        image: {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        },
       });
-    }
 
-    const post = await postModel.create({
-      title,
-      description,
-      location,
-      date,
-      // image,
-      // postedBy: req.auth._id,
+      // Sending success response
+      res.status(201).send({
+        success: true,
+        message: "Post created successfully",
+        post,
+      });
     });
-    res.status(201).send({
-      success: true,
-      message: "Post created successfully",
-      post,
-    });
-
-    console.log(req);
   } catch (error) {
     console.log(error);
     res.status(500).send({

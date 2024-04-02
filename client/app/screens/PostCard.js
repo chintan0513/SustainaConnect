@@ -13,6 +13,7 @@ import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import { Linking } from "react-native";
 
 const PostCard = ({ post, openEditModal, foods }) => {
   const navigation = useNavigation();
@@ -62,6 +63,14 @@ const PostCard = ({ post, openEditModal, foods }) => {
     </View>
   );
 
+  const handleWhatsAppContact = () => {
+    const phoneNumber = "1234567890"; // Replace with dynamic phone number
+    const whatsappUrl = `whatsapp://send?phone=${phoneNumber}`;
+    Linking.openURL(whatsappUrl)
+      .then(() => console.log("WhatsApp opened"))
+      .catch(() => alert("Make sure WhatsApp is installed on your device"));
+  };
+
   return (
     <View style={styles.postContainer}>
       <View style={styles.postContent}>
@@ -89,18 +98,31 @@ const PostCard = ({ post, openEditModal, foods }) => {
           </Text>
         </View>
 
-        <View>
+        <View style={styles.leftSide}>
           <Text style={styles.postTitle}>{post.title}</Text>
-          <Text style={styles.postDescription}>{post.description}</Text>
-          <View style={styles.loc}>
-            <Ionicons name="pin-outline" size={15} color="black" />
-            <Text style={styles.postLocation}>{post.location}</Text>
-          </View>
+          <Text style={styles.postDescription}>Items: {post.description}</Text>
           <View>
-            <Text style={styles.postLocation}>
-              Date: {new Date(post.date).toLocaleString()}
+            <Text style={styles.time}>
+              Date: {moment(post.date).format("DD:MM:YYYY")}
             </Text>
           </View>
+          <View style={styles.loc}>
+            <Ionicons name="pin-outline" size={20} color="red" />
+            <Text style={styles.postLocation}>{post.location}</Text>
+          </View>
+          <TouchableOpacity
+            onPress={handleWhatsAppContact}
+            style={styles.whatsappBtnContainer}
+          >
+            <Ionicons
+              name="logo-whatsapp"
+              style={styles.whatsappButton}
+              size={20}
+            />
+            <Text style={{ fontSize: 11, fontWeight: "600", color: "#ffff" }}>
+              Contact Through WhatsApp
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -137,24 +159,27 @@ const styles = StyleSheet.create({
   heading: { color: "green" },
 
   postContainer: {
-    width: "90%",
-    height: "auto",
+    width: "95%",
     backgroundColor: "#ffffff",
     borderWidth: 0.2,
-    borderColor: "gray",
+    borderColor: "#f1f1f1",
     padding: 20,
     flex: 1,
     borderRadius: 5,
     marginVertical: 10,
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 10,
+    marginRight: 10,
   },
 
   postContent: {
     flexDirection: "row-reverse",
     justifyContent: "space-between",
   },
-
+  leftSide: {
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "nowrap",
+  },
   rightSide: {
     flexDirection: "column",
     right: 10,
@@ -168,10 +193,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  postDescription: { marginVertical: 10, fontSize: 15 },
+  postDescription: { marginVertical: 10, fontSize: 15, fontWeight: "500" },
   loc: { flexDirection: "row", fontSize: 10, marginTop: 10 },
 
-  postLocation: { marginTop: 0 },
+  postLocation: { marginTop: 0, fontWeight: "bold", fontSize: 17 },
 
   postDate: {
     color: "gray",
@@ -187,14 +212,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     textAlign: "right",
     marginRight: 0,
-    marginBottom: 10,
+    marginVertical: 10,
   },
 
   deleteButtonText: {
     color: "red",
-
     borderRadius: 5,
-
     textAlign: "right",
   },
   modalContainer: {
@@ -245,6 +268,28 @@ const styles = StyleSheet.create({
   closeButtonText: {
     fontSize: 16,
     fontWeight: "bold",
+  },
+  whatsappBtnContainer: {
+    display: "flex",
+    position: "relative",
+    justifyContent: "center",
+    width: 200,
+    flexDirection: "row",
+    backgroundColor: "darkgreen",
+    borderRadius: 30,
+    paddingHorizontal: 10,
+    gap: 20,
+    alignItems: "center",
+    bottom: 0,
+    left: 0,
+    marginTop: 20,
+    paddingVertical: 7,
+  },
+  whatsappButton: {
+    color: "green",
+    borderRadius: 5,
+    color: "#ffff",
+    marginBottom: 0,
   },
 });
 

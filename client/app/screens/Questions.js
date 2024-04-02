@@ -21,6 +21,33 @@ const Questions = ({ navigation }) => {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [isImageSelected, setIsImageSelected] = useState(false);
+  /*const [userData, setUserData] = useState(null); // To store user data fetched from Firebase
+
+  useEffect(() => {
+    // Check if the user has already submitted their data
+
+    const fetchUserData = async () => {
+      try {
+        const currentUser = firebase.auth().currentUser;
+        const usersRef = firebase.firestore().collection("SIN");
+        if (currentUser) {
+          const userDoc = await usersRef.doc(currentUser.uid).get();
+          if (userDoc.exists) {
+            const userData = userDoc.data();
+            setUserData(userData);
+            // Navigate to Landing if user data exists
+            navigation.navigate("Landing", { user: currentUser });
+          } else {
+            console.log("User data does not exist");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []); */
 
   useEffect(() => {
     if (image) {

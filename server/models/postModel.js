@@ -17,13 +17,13 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add a location"],
     },
-    // image: {
-    //   type: String,
-    //   required: [true, "Please add an image"],
-    // },
     date: {
       type: Date,
       required: [true, "Please add a date for the event"],
+    },
+    image: {
+      data: Buffer,
+      contentType: String,
     },
   },
   {
